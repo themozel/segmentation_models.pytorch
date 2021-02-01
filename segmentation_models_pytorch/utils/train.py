@@ -85,10 +85,10 @@ class TrainEpoch(Epoch):
     def batch_update(self, x, y):
         self.optimizer.zero_grad()
         prediction = self.model.forward(x)
-        loss = self.loss(prediction, y)
+        loss = self.loss(prediction['preds'], y)
         loss.backward()
         self.optimizer.step()
-        return loss, prediction
+        return loss, prediction['preds']
 
 
 class ValidEpoch(Epoch):
@@ -109,5 +109,5 @@ class ValidEpoch(Epoch):
     def batch_update(self, x, y):
         with torch.no_grad():
             prediction = self.model.forward(x)
-            loss = self.loss(prediction, y)
-        return loss, prediction
+            loss = self.loss(prediction['preds'], y)
+        return loss, prediction['preds']
